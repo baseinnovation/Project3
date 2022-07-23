@@ -42,6 +42,14 @@ vector<Recipe> GatherData(string location){
             //to get rid of the FOODID
             string DataVar;
             getline(dataLine, DataVar, ',');
+            
+            
+            
+            
+            
+            
+            
+            
 
             //retrieving the name
             getline(dataLine, DataVar, ',');
