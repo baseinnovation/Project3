@@ -7,26 +7,17 @@ using namespace std;
 
 class Recipe{
 public:
-
-
-
-
-
-    
     string name;
+    string id;
     int cookTime;
     int prepTime;
     int totalTime;
-    string description;
-    string keywords;
-    string recipeIngredientRatios;
-    string recipeIngredients;
+    string authorName;
     int totalRatings;
     float rating;
     int calories;
-    int nutritionData[9] = {0};
     float foodYield;
-    string instructions;
+    int servings;
 };
 
 void PrintData(vector<Recipe> data){
@@ -51,6 +42,7 @@ vector<Recipe> GatherData(string location){
             //to get rid of the FOODID
             string DataVar;
             getline(dataLine, DataVar, ',');
+            newData.id = stoi(DataVar);
 
             //retrieving the name
             getline(dataLine, DataVar, ',');
@@ -77,13 +69,6 @@ vector<Recipe> GatherData(string location){
                 cookTime = "0";
             }
 
-            
-
-
-
-            
-
-
             newData.cookTime = stoi(cookTime);
             cout << cookTime << " :: " ;
 
@@ -102,7 +87,9 @@ vector<Recipe> GatherData(string location){
             }
             newData.prepTime = stoi(prepTime);
 
-            cout << prepTime << endl;
+            //retrieving totalTime
+            getline(dataLine, DataVar, ',');
+            newData.totalTime = stoi(DataVar);
 
             cout << DataVar << endl;
         }
