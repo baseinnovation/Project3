@@ -7,6 +7,12 @@ using namespace std;
 
 class Recipe{
 public:
+
+
+
+
+
+    
     string name;
     int cookTime;
     int prepTime;
