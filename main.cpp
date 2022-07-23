@@ -33,23 +33,18 @@ vector<Recipe> GatherData(string location){
     ifstream file(location);
     string data;
     vector<Recipe> Data;
+    //removing the top line
+    getline(file, data);
     if(file.is_open()){
         while(!file.fail()){
             data = "";
             getline(file, data);
             istringstream dataLine (data);
             Recipe newData;
+
             //to get rid of the FOODID
             string DataVar;
             getline(dataLine, DataVar, ',');
-            
-            
-            
-            
-            
-            
-            
-            
 
             //retrieving the name
             getline(dataLine, DataVar, ',');
@@ -72,6 +67,19 @@ vector<Recipe> GatherData(string location){
                 }
                 i++;
             }
+            if(cookTime == ""){
+                cookTime = "0";
+            }
+
+
+
+
+
+
+
+            
+
+
             newData.cookTime = stoi(cookTime);
             cout << cookTime << " :: " ;
 
@@ -85,7 +93,10 @@ vector<Recipe> GatherData(string location){
                 }
                 i++;
             }
-            newData.cookTime = stoi(prepTime);
+            if(prepTime == ""){
+                prepTime = "0";
+            }
+            newData.prepTime = stoi(prepTime);
 
             cout << prepTime << endl;
 
