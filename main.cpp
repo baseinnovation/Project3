@@ -77,9 +77,7 @@ vector<Recipe> GatherData(string location){
                 cookTime = "0";
             }
 
-
-
-
+            
 
 
 
