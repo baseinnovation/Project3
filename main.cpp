@@ -42,7 +42,7 @@ vector<Recipe> GatherData(string location){
             //to get rid of the FOODID
             string DataVar;
             getline(dataLine, DataVar, ',');
-            newData.id = stoi(DataVar);
+            //newData.id = stoi(DataVar);
 
             //retrieving the name
             getline(dataLine, DataVar, ',');
@@ -58,38 +58,36 @@ vector<Recipe> GatherData(string location){
             getline(dataLine, DataVar, ',');
 
             string cookTime = "";
-            int i = 0;
-            while(DataVar[i] != '\0'){
+            for(int i = 0; i < DataVar.size(); i++){
                 if(isdigit(DataVar[i])){
                     cookTime += DataVar[i];
                 }
-                i++;
             }
             if(cookTime == ""){
                 cookTime = "0";
             }
 
-            newData.cookTime = stoi(cookTime);
+            //newData.cookTime = stoi(cookTime);
             cout << cookTime << " :: " ;
 
             //retrieving prepTime;
             getline(dataLine, DataVar, ',');
             string prepTime = "";
-            i = 0;
-            while(DataVar[i] != '\0'){
+            for(int i = 0; i < DataVar.size(); i++){
                 if(isdigit(DataVar[i])){
                     prepTime += DataVar[i];
                 }
-                i++;
             }
             if(prepTime == ""){
                 prepTime = "0";
             }
-            newData.prepTime = stoi(prepTime);
+
+            cout << prepTime << endl;
+            //newData.prepTime = stoi(prepTime);
 
             //retrieving totalTime
             getline(dataLine, DataVar, ',');
-            newData.totalTime = stoi(DataVar);
+            //newData.totalTime = stoi(DataVar);
 
             cout << DataVar << endl;
         }
