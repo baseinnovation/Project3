@@ -37,7 +37,7 @@ vector<Recipe> GatherData(string location){
             data = "";
             getline(file, data);
             istringstream dataLine (data);
-            Recipe newData;
+            Recipe newRecipe;
 
             //to get rid of the FOODID
             string DataVar;
@@ -46,7 +46,7 @@ vector<Recipe> GatherData(string location){
 
             //retrieving the name
             getline(dataLine, DataVar, ',');
-            newData.name = DataVar;
+            newRecipe.name = DataVar;
 
             //getting rid of the authorid
             getline(dataLine, DataVar, ',');
@@ -89,7 +89,55 @@ vector<Recipe> GatherData(string location){
             getline(dataLine, DataVar, ',');
             //newData.totalTime = stoi(DataVar);
 
-            cout << DataVar << endl;
+            //getting the DataPublished
+            getline(dataLine, DataVar, ',');
+
+            //getting the Description
+            getline(dataLine, DataVar, ',');
+
+            //getting Image
+            getline(dataLine, DataVar, ',');
+
+            //getting RecipeCategory
+            getline(dataLine, DataVar, ',');
+
+            //getting Keywords
+            getline(dataLine, DataVar, ',');
+
+            //getting RecipeIngredients
+            getline(dataLine, DataVar, ',');
+
+            //getting RecipeIngredientParts
+            getline(dataLine, DataVar, ',');
+
+            //getting AggregatedRating
+            getline(dataLine, DataVar, ',');
+
+            //getting Calories
+            getline(dataLine, DataVar, ',');
+
+            //eliminating some of the ingredients
+            for(int i = 0; i < 7; i++){
+                getline(dataLine, DataVar, ',');
+            }
+
+            //getting the protein count
+            getline(dataLine, DataVar, ',');
+
+            //getting servings
+            getline(dataLine, DataVar, ',');
+
+            //getting recipe yield
+            getline(dataLine, DataVar, ',');
+
+            //instructions
+            getline(dataLine, DataVar, ',');
+
+            //THIS REACHES THE END OF GATHERING THE DATA FOR THE NEWRECIPE OBJ
+            //THE NAME OF THE NEW RECIPE IS 'newRecipe' and it is a Recipe Data Object
+
+            //BEGIN THE AREA WHERE YOU MAKE THE DATA STRUCTURES AND CLASSES TO STORE THE NEW RECIPEcd 
+
         }
     }
     return Data;
