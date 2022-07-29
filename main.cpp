@@ -21,7 +21,13 @@ public:
 };
 
 void PrintRecipe(Recipe& _recipe){
-    cout << _recipe.name << " :: " << _recipe.rating << endl;
+    cout << "Name: " << _recipe.name << endl;
+    cout << "Rating: " << _recipe.rating << endl;
+    cout << "Total Ratings: " << _recipe.totalRatings << endl;
+    cout << "Prep Time: " << _recipe.prepTime << endl;
+    cout << "Cook Time: " << _recipe.cookTime << endl;
+    cout << "Calories: " << _recipe.calories << endl;
+    cout << "Servings: " << _recipe.servings;
 }
 
 vector<Recipe> GatherData(string location){
@@ -36,19 +42,19 @@ vector<Recipe> GatherData(string location){
         while(!file.fail()){
             Recipe newRecipe;
             string DataVar;
-
-            cout << "Cycle: " << i << endl;
             i++;
 
             //getting the ID
             getline(file, DataVar, ',');
-            //newData.id = stoi(DataVar)
-            cout << DataVar << " :: ";
+            while(!isdigit(DataVar[0])){
+                getline(file, DataVar);
+                getline(file, DataVar, ',');
+            }
+            newRecipe.id = DataVar;
 
             //retrieving the name
             getline(file, DataVar, ',');
             newRecipe.name = DataVar;
-            cout << DataVar << " :: ";
 
             //getting rid of the authorid
             getline(file, DataVar, ',');
@@ -58,62 +64,57 @@ vector<Recipe> GatherData(string location){
 
             //retrieving the cooktime
             getline(file, DataVar, ',');
-
-            string cookTime = "";
-            for(int i = 0; i < DataVar.size(); i++){
-                if(isdigit(DataVar[i])){
-                    cookTime += DataVar[i];
-                }
-            }
-            if(cookTime == ""){
-                cookTime = "0";
-            }
-
-            //newData.cookTime = stoi(cookTime);
+            newRecipe.cookTime = DataVar;
 
             //retrieving prepTime;
             getline(file, DataVar, ',');
-            string prepTime = "";
-            for(int i = 0; i < DataVar.size(); i++){
-                if(isdigit(DataVar[i])){
-                    prepTime += DataVar[i];
-                }
-            }
-            if(prepTime == ""){
-                prepTime = "0";
-            }
-
-            //newData.prepTime = stoi(prepTime);
+            newRecipe.prepTime = DataVar;
 
             //retrieving totalTime
             getline(file, DataVar, ',');
-            //newData.totalTime = stoi(DataVar);
+            newRecipe.totalTime = DataVar;
+
 
             //getting the DataPublished
             getline(file, DataVar, ',');
 
+
             //getting the Description
             getline(file, DataVar, ',');
 
-            //getting Image
 
-            getline(file, DataVar, ')');
+            //getting Image
             getline(file, DataVar, ',');
+            if(DataVar[0] == '"'){
+                getline(file, DataVar, ')');
+                getline(file, DataVar, ',');
+            }
+
 
             //getting RecipeCategory
             getline(file, DataVar, ',');
 
             //getting Keywords
-            getline(file, DataVar, ')');
             getline(file, DataVar, ',');
+            if(DataVar[0] == '"'){
+                getline(file, DataVar, ')');
+                getline(file, DataVar, ',');
+            }
+
 
             //getting RecipeIngredientsQuantities
-            getline(file, DataVar, ')');
             getline(file, DataVar, ',');
+            if(DataVar[0] == '"'){
+                getline(file, DataVar, ')');
+                getline(file, DataVar, ',');
+            }
 
             //getting RecipeIngredientParts
-            getline(file, DataVar, ')');
             getline(file, DataVar, ',');
+            if(DataVar[0] == '"'){
+                getline(file, DataVar, ')');
+                getline(file, DataVar, ',');
+            }
 
             //getting AggregatedRating
             getline(file, DataVar, ',');
@@ -121,9 +122,11 @@ vector<Recipe> GatherData(string location){
 
             //getting Rating Count
             getline(file, DataVar, ',');
+            newRecipe.totalRatings = DataVar;
 
             //getting Calories
             getline(file, DataVar, ',');
+            newRecipe.calories = DataVar;
 
             //eliminating some of the ingredients
             for(int i = 0; i < 7; i++){
@@ -135,12 +138,17 @@ vector<Recipe> GatherData(string location){
 
             //getting servings
             getline(file, DataVar, ',');
+            newRecipe.servings = DataVar;
 
             //getting recipe yield
             getline(file, DataVar, ',');
 
             //instructions
-            getline(file, DataVar);
+            getline(file, DataVar, ',');
+            if(DataVar[0] == '"'){
+                getline(file, DataVar, ')');
+                getline(file, DataVar, ',');
+            }
 
             //testing to see if the data was gathered correctly
             //PrintRecipe(newRecipe);
@@ -149,6 +157,7 @@ vector<Recipe> GatherData(string location){
             //THE NAME OF THE NEW RECIPE IS 'newRecipe' and it is a Recipe Data Object
 
             //BEGIN THE AREA WHERE YOU MAKE THE DATA STRUCTURES AND CLASSES TO STORE THE NEW RECIPE
+            PrintRecipe(newRecipe);
 
             cout << endl << endl;
 
