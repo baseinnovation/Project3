@@ -104,31 +104,15 @@ void GatherData(string location){
             getline(file, DataVar, ',');
             newRecipe.servings = DataVar;
 
-
-            //thai
-            //japanese
-            //indian
-            //vegan
-            //mexican
-            //australian
-            //
-
-            //deciding to leave out the instructions string cause at the top the new recipe wont start until a string starts with an id
-
-            //testing to see if the data was gathered correctly
-            //PrintRecipe(newRecipe);
-
-
-
             //THIS REACHES THE END OF GATHERING THE DATA FOR THE NEWRECIPE OBJ
             //THE NAME OF THE NEW RECIPE IS 'newRecipe' and it is a Recipe Data Object
 
             //BEGIN THE AREA WHERE YOU MAKE THE DATA STRUCTURES AND CLASSES TO STORE THE NEW RECIPE
 
-            PrintRecipe(newRecipe);
 
-            cout << endl << endl;
 
+
+            
         }
     }
 }
