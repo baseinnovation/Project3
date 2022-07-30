@@ -46,11 +46,11 @@ vector<Recipe> GatherData(string location){
 
             //getting the ID
             getline(file, DataVar, ',');
-            while(!isdigit(DataVar[0])){
-                getline(file, DataVar);
+            while(!isdigit(DataVar[1])){
                 getline(file, DataVar, ',');
             }
             newRecipe.id = DataVar;
+
 
             //retrieving the name
             getline(file, DataVar, ',');
@@ -81,10 +81,12 @@ vector<Recipe> GatherData(string location){
 
             //getting the Description
             getline(file, DataVar, ',');
+            while(DataVar[0] != '"'){
+                getline(file, DataVar, ',');
+            }
 
 
             //getting Image
-            getline(file, DataVar, ',');
             if(DataVar[0] == '"'){
                 getline(file, DataVar, ')');
                 getline(file, DataVar, ',');
@@ -104,6 +106,7 @@ vector<Recipe> GatherData(string location){
 
             //getting RecipeIngredientsQuantities
             getline(file, DataVar, ',');
+            //cout << "Qualities " << DataVar << endl;
             if(DataVar[0] == '"'){
                 getline(file, DataVar, ')');
                 getline(file, DataVar, ',');
@@ -143,12 +146,8 @@ vector<Recipe> GatherData(string location){
             //getting recipe yield
             getline(file, DataVar, ',');
 
-            //instructions
-            getline(file, DataVar, ',');
-            if(DataVar[0] == '"'){
-                getline(file, DataVar, ')');
-                getline(file, DataVar, ',');
-            }
+            //deciding to leave out the instructions string cause at the top the new recipe wont start until a string starts with an id
+
 
             //testing to see if the data was gathered correctly
             //PrintRecipe(newRecipe);
