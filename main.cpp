@@ -94,6 +94,7 @@ void GatherData(string location){
 
             //getting sugar
             getline(file, DataVar, ',');
+            newRecipe.sugar = DataVar;
 
             //getting the protein count
             getline(file, DataVar, ',');
