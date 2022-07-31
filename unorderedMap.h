@@ -1,10 +1,6 @@
 //
 // Created by Cathy Quan on 7/30/22.
 //
-
-#ifndef PROJECT_3_UNORDEREDMAP_H
-#define PROJECT_3_UNORDEREDMAP_H
-
 #include <iostream>
 #include <vector>
 #include <list>
@@ -12,7 +8,7 @@
 using namespace std;
 
 template <typename T>
-class unordered_map {
+class Unordered_Map {
 private:
     list<list<pair<int, T>>> *buckets;
     int bucketSize;
@@ -45,5 +41,3 @@ public:
         numElements++;
     }
 };
-
-#endif //PROJECT_3_UNORDEREDMAP_H
