@@ -1,10 +1,4 @@
-//
-// Created by Cathy Quan on 7/30/22.
-//
-#include <iostream>
-#include <vector>
-#include <list>
-#include <utility>
+#include "Bin.h"
 using namespace std;
 
 template <typename T>
