@@ -1,21 +1,6 @@
-#include <iostream>
-#include <fstream>
+#include "Bin.h"
 
 using namespace std;
-
-class Recipe{
-public:
-    string name;
-    string id;
-    string cookTime;
-    string authorName;
-    string totalRatings;
-    string rating;
-    string calories;
-    string sugar;
-    string protein;
-    string servings;
-};
 
 void PrintRecipe(Recipe& _recipe){
     cout << "Name: " << _recipe.name << endl;
@@ -26,17 +11,12 @@ void PrintRecipe(Recipe& _recipe){
     cout << "Servings: " << _recipe.servings;
 }
 
-void GatherData(string location){
+void GatherData(string location, BST& Red_Black, Unordered_Map<Recipe>& UnorderedMap, float UMPTime, float BSTTime){
     ifstream file(location);
-    string data;
-    //removing the top line
-    //cout << data;
-   int i = 0;
     if(file.is_open()){
         while(!file.fail()){
             Recipe newRecipe;
             string DataVar;
-            i++;
 
             //getting the ID
             getline(file, DataVar, ',');
@@ -107,19 +87,59 @@ void GatherData(string location){
             //THIS REACHES THE END OF GATHERING THE DATA FOR THE NEWRECIPE OBJ
             //THE NAME OF THE NEW RECIPE IS 'newRecipe' and it is a Recipe Data Object
 
+            Red_Black.insert()
+
+
             //BEGIN THE AREA WHERE YOU MAKE THE DATA STRUCTURES AND CLASSES TO STORE THE NEW RECIPE
 
 
 
 
-            
+
         }
     }
 }
 
 int main() {
 
-    GatherData("../recipes.csv");
+    Unordered_Map<Recipe> UnorderedMap;
+    BST Red_Black;
+    float InsertUMPTime;
+    float InsertRBTime;
+
+    GatherData("../recipes.csv", Red_Black, UnorderedMap, InsertUMPTime, InsertRBTime);
+
+    cout << "Welcome to Meal Finder!" << endl << "Select the type of thing you are looking for today" << endl;
+
+    bool good = false;
+    while(!good) {
+        //gather user input
+        cout << "1. Meals     2. Breakfasts      3. Snacks" << endl << "4. Beverages      5. Snacks" << endl;
+        string input;
+
+        cout << "Enter Number or option: " ;
+        cin >> input;
+        transform(input.begin(), input.end(), input.begin(), ::toupper);
+        good = true;
+
+        //find the right category
+        if (input == "MEALS" || input == "MEAL" || input == "1") {
+
+        } else if (input == "BREAKFASTS" || input == "BREAKFAST" || input == "2") {
+
+        } else if (input == "SNACKS" || input == "SNACK" || input == "3") {
+
+        } else if (input == "BEVERAGES" || input == "BEVERAGE" || input == "4") {
+
+        } else if (input == "DESSERTS" || input == "DESSERT" || input == "5") {
+
+        } else {
+            cout << endl;
+            cout << "Please choose a valid input" << endl;
+            good = false;
+        }
+    }
+
 
     return 0;
 }

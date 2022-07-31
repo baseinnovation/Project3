@@ -1,6 +1,4 @@
-#include <vector>
-#include <iostream>
-#include <string>
+#include "Bin.h"
 
 // rotations from module 4: balanced trees stepik solutions
 using namespace std;
