@@ -27,11 +27,17 @@ private:
     Node* rotateRightLeft(Node* node);
 
 public:
-    Node* insertHelper(Node* head, Node* parent, string data);
+    Node* insertHelper(Node* head, string data);
     void insert(string data);
     void remove(Node* head);
-    void search(Node* head);
+    Node* search(Node* head, string data);
+
+    // for testing
+    void inorder(Node* head, vector<Node*>& in);
+    void preorder (Node* head, vector<Node*>& pre);
     void postorder(Node* head, vector<Node*>& post);
+    void printInOrder();
+    void printPreOrder();
     void printPostOrder();
     ~BST();
 
@@ -47,7 +53,6 @@ void BST::printPostOrder() {
             cout << post[i]->data << ", ";
     }
 }
-
 void BST::postorder(Node* head, vector<Node*>& post) {
     if (head == nullptr)
         return;
@@ -55,6 +60,46 @@ void BST::postorder(Node* head, vector<Node*>& post) {
         postorder(head->left, post);
         postorder(head->right,post);
         post.push_back(head);
+    }
+}
+
+void BST::printInOrder() {
+    vector<Node*> in;
+    inorder(this->root, in);
+    for (unsigned int i = 0; i < in.size(); i++) {
+        if (i == in.size() - 1)
+            cout << in[i]->data << endl;
+        else
+            cout << in[i]->data << ", ";
+    }
+}
+void BST::inorder(Node* head, vector<Node*>& in) {
+    if (head == nullptr)
+        return;
+    else {
+        inorder(head->left, in);
+        in.push_back(head);
+        inorder(head->right,in);
+    }
+}
+
+void BST::printPreOrder() {
+    vector<Node*> pre;
+    preorder(this->root, pre);
+    for (unsigned int i = 0; i < pre.size(); i++) {
+        if (i == pre.size() - 1)
+            cout << pre[i]->data << endl;
+        else
+            cout << pre[i]->data << ", ";
+    }
+}
+void BST::preorder(Node* head, vector<Node*>& pre) {
+    if (head == nullptr)
+        return;
+    else {
+        pre.push_back(head);
+        preorder(head->left, pre);
+        preorder(head->right,pre);
     }
 }
 
@@ -117,81 +162,116 @@ Node* BST::rotateRightLeft(Node* node) {
 
 
 
-
+Node* BST::search(Node* head, string d) {
+    if (head == nullptr)
+        return nullptr;
+    else if (head->data == d)
+        return head;
+    else if (d < head->data)
+        return search(head->left, d);
+    else
+        return search(head->right, d);
+}
 
 void BST::insert(string data) {
-    this->root = insertHelper(this->root, this->root, data);
+    this->root = insertHelper(this->root, data);
     this->root->black = true; // update root color to always black
 }
 
-Node* BST::insertHelper(Node* head, Node* parent, string data) {
+Node* BST::insertHelper(Node* head, string data) {
     // if new node is root, color black, else color red and adjust color if necessary
     if (root == nullptr)
         return new Node(data, true);
     else if (head == nullptr)
         return new Node(data, false);
-    else if (data < head->data && head == root)
-        head->left = insertHelper(head->left, root, data);
-    else if (data > head->data && head == root)
-        head->right = insertHelper(head->right, root, data);
-    else if (data < head->data && head != root)
-        head->left = insertHelper(head->left, head, data);
+    else if (data < head->data)
+        head->left = insertHelper(head->left, data);
     else
-        head->right = insertHelper(head->right, head, data);
+        head->right = insertHelper(head->right, data);
 
-    // check
-    // node's uncle is red: change parent and uncle colour to black, grandfather to red
-    // node's uncle is black: left, right, left-right, right-left rotation based on tree structure, swap parent and grandfather colors if possible
-    if (parent->left != nullptr) {
-        if (parent->left == head && parent->right != nullptr) { // parent of new child
-            if (!parent->right->black) { // uncle is red
-                parent->left->black = true;
-                parent->right->black = true;
-                parent->black = false;
-            } else if (parent->right->black) { // uncle exists and black
-                if (head->left != nullptr) {
-                    if (head->left->data == data)
-                        parent = rotateRight(parent);
-                } else if (head->right != nullptr) {
-                    if (head->right->data == data)
-                        parent = rotateLeftRight(parent);
+    // update relationships of head node
+    Node* child_L = head->left;
+    Node* child_R = head->right;
+    Node* grandChild_LL = nullptr;
+    Node* grandChild_LR = nullptr;
+    Node* grandChild_RL = nullptr;
+    Node* grandChild_RR = nullptr;
+
+    if (child_L != nullptr) {
+        grandChild_LL = child_L->left;
+        grandChild_LR = child_L->right;
+    }
+    if (child_R != nullptr) {
+        grandChild_RL = child_R->left;
+        grandChild_RR = child_R->right;
+    }
+
+    // find grandparent of newly inserted node
+    // if node's uncle is red: change parent and uncle colour to black, grandfather to red
+    // if node's uncle is black: left, right, left-right, right-left rotation based on tree structure, swap parent and grandfather colors if possible
+    if (child_L != nullptr) {
+        if (grandChild_LL != nullptr) {
+            if (grandChild_LL->data == data) { // grandChild is newly inserted node
+                if (child_R != nullptr) { // uncle exists
+                    if (!child_R->black) { // uncle is red
+                        child_L->black = true;
+                        child_R->black = true;
+                        head->black = false;
+                    } else { // uncle is black
+                        head = rotateRight(head);
+                    }
+                } else { // uncle is null, therefore black
+                    head = rotateRight(head);
                 }
             }
-        } else if (parent->left == head && parent->right == nullptr) { // uncle is null and black
-            if (head->left != nullptr)
-                if (head->left->data == data)
-                    parent = rotateRight(parent);
-            else if (head->right != nullptr)
-                if (head->right->data == data)
-                    parent = rotateLeftRight(parent);
-        }
-
-    } else if (parent->right != nullptr) {
-        if (parent->right == head && parent->left != nullptr) { // parent of new child
-            if(!parent->left->black) { // uncle is red
-                parent->right->black = true;
-                parent->left->black = true;
-                parent->black = false;
-            } else if (parent->left->black) { // uncle exists and black
-                if (head->right != nullptr) {
-                    if (head->right->data == data)
-                        parent = rotateLeft(parent);
+        } else if (grandChild_LR != nullptr) {
+            if (grandChild_LR->data == data) {
+                if (child_R != nullptr) {
+                    if (!child_R->black) { // uncle is red
+                        child_L->black = true;
+                        child_R->black = true;
+                        head->black = false;
+                    } else { // uncle is black
+                        head = rotateLeftRight(head);
+                    }
+                } else { // uncle is null, therefore black
+                    head = rotateLeftRight(head);
                 }
-            } else if (head->left != nullptr) {
-                if (head->left->data == data)
-                    parent = rotateRightLeft(parent);
             }
-        } else if (parent->right == head && parent->left == nullptr) { // uncle is null and black
-            if (head->right != nullptr)
-                if(head->right->data == data)
-                    parent = rotateLeft(parent);
-            else if (head->left != nullptr)
-                if(head->left->data == data)
-                    parent = rotateRightLeft(parent);
-
         }
     }
 
+    if (child_R != nullptr) {
+        if (grandChild_RR != nullptr) {
+            if (grandChild_RR->data == data) { // grandChild is newly inserted node
+                if (child_L != nullptr) { // uncle exists
+                    if (!child_L->black) { // uncle is red
+                        child_L->black = true;
+                        child_R->black = true;
+                        head->black = false;
+                    } else { // uncle is black
+                        head = rotateLeft(head);
+                    }
+                } else { // uncle is null, therefore black
+                    head = rotateLeft(head);
+                }
+            }
+        } else if (grandChild_RL != nullptr) {
+            if (grandChild_RL->data == data) {
+                if (child_L != nullptr) {
+                    if (!child_L->black) { // uncle is red
+                        child_L->black = true;
+                        child_R->black = true;
+                        head->black = false;
+                    } else { // uncle is black
+                        head = rotateRightLeft(head);
+                    }
+                } else { // uncle is null, therefore black
+                    head = rotateRightLeft(head);
+                }
+            }
+        }
+    }
     return head;
 }
 
