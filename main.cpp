@@ -11,7 +11,7 @@ void PrintRecipe(Recipe& _recipe){
     cout << "Servings: " << _recipe.servings;
 }
 
-void GatherData(string location, BST& Red_Black, Unordered_Map<Recipe>& UnorderedMap, float UMPTime, float BSTTime){
+void GatherData(string location, Ordered_Map<Recipe>& Ordered_Map, Unordered_Map<Recipe>& UnorderedMap, float UMPTime, float BSTTime){
     ifstream file(location);
     if(file.is_open()){
         while(!file.fail()){
@@ -87,14 +87,11 @@ void GatherData(string location, BST& Red_Black, Unordered_Map<Recipe>& Unordere
             //THIS REACHES THE END OF GATHERING THE DATA FOR THE NEWRECIPE OBJ
             //THE NAME OF THE NEW RECIPE IS 'newRecipe' and it is a Recipe Data Object
 
-            Red_Black.insert()
-
+            //cout << "Gathered data" << endl;
+            UnorderedMap.insert(Category, newRecipe, newRecipe.name);
+            Ordered_Map.insert(Category, newRecipe, newRecipe.name);
 
             //BEGIN THE AREA WHERE YOU MAKE THE DATA STRUCTURES AND CLASSES TO STORE THE NEW RECIPE
-
-
-
-
 
         }
     }
@@ -103,11 +100,11 @@ void GatherData(string location, BST& Red_Black, Unordered_Map<Recipe>& Unordere
 int main() {
 
     Unordered_Map<Recipe> UnorderedMap;
-    BST Red_Black;
+    Ordered_Map<Recipe> OrderedMap;
     float InsertUMPTime;
     float InsertRBTime;
 
-    GatherData("../recipes.csv", Red_Black, UnorderedMap, InsertUMPTime, InsertRBTime);
+    GatherData("../recipes.csv", OrderedMap, UnorderedMap, InsertUMPTime, InsertRBTime);
 
     cout << "Welcome to Meal Finder!" << endl << "Select the type of thing you are looking for today" << endl;
 
@@ -124,15 +121,30 @@ int main() {
 
         //find the right category
         if (input == "MEALS" || input == "MEAL" || input == "1") {
-
+            vector<Recipe> breakfastlist = UnorderedMap.find("Main Course");
+            for(int i = 0; i < breakfastlist.size(); i++){
+                cout << breakfastlist[i].name << endl;
+            }
         } else if (input == "BREAKFASTS" || input == "BREAKFAST" || input == "2") {
-
+            vector<Recipe> breakfastlist = UnorderedMap.find("Breakfast");
+            for(int i = 0; i < breakfastlist.size(); i++){
+                cout << breakfastlist[i].name << endl;
+            }
         } else if (input == "SNACKS" || input == "SNACK" || input == "3") {
-
+            vector<Recipe> breakfastlist = UnorderedMap.find("Snacks");
+            for(int i = 0; i < breakfastlist.size(); i++){
+                cout << breakfastlist[i].name << endl;
+            }
         } else if (input == "BEVERAGES" || input == "BEVERAGE" || input == "4") {
-
+            vector<Recipe> breakfastlist = UnorderedMap.find("Beverages");
+            for(int i = 0; i < breakfastlist.size(); i++){
+                cout << breakfastlist[i].name << endl;
+            }
         } else if (input == "DESSERTS" || input == "DESSERT" || input == "5") {
-
+            vector<Recipe> breakfastlist = UnorderedMap.find("Dessert");
+            for(int i = 0; i < breakfastlist.size(); i++){
+                cout << breakfastlist[i].name << endl;
+            }
         } else {
             cout << endl;
             cout << "Please choose a valid input" << endl;
