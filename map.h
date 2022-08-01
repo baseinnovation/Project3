@@ -13,13 +13,14 @@ private:
     struct Node {
         string data;
         T recipe = nullptr;
+        vector<T> allRecipes;
         Node* left;
         Node* right;
         bool black = true;
         Node() : data(), left(nullptr), right(nullptr) {}
         Node(string d) : data(d), left(nullptr), right(nullptr) {}
         Node(string d, bool black) : data(d), black(black), left(nullptr), right(nullptr) {}
-        Node(string d, T rec, bool black) : data(d), recipe(rec), black(black) {}
+        Node(string d, T rec, bool black) : data(d), recipe(rec), black(black){}
     };
     Node* root = nullptr;
 
@@ -29,6 +30,8 @@ private:
         Node* rightChild = node->right;
         node->right = rightChild->left;
         rightChild->left = node;
+
+        cout << "rotL" << endl;
 
         // swap grandfather and parent colors if necessary
         if (rightChild->black && !node->black) {
@@ -56,6 +59,8 @@ private:
             node->black = false;
             leftChild->black = true;
         }
+
+        cout << "rotR" << endl;
 
         return leftChild;
 
@@ -88,15 +93,27 @@ public:
         this->root->black = true; // update root color to always black
     }
     Node* insertHelper(Node* head, string data, T recipe) {
-        // if new node is root, color black, else color red and adjust color if necessary
-        if (root == nullptr)
-            return new Node(data, recipe, true);
-        else if (head == nullptr)
-            return new Node(data, recipe, false);
+        // if new node is root, color black,
+        // else color red and adjust color if necessary
+        if (root == nullptr) {
+            Node *newNode = new Node(data, recipe, false);
+            newNode->allRecipes.push_back(recipe);
+            return newNode;
+        }
+        else if (head == nullptr) {
+            Node* newNode = new Node(data, recipe, false);
+            newNode->allRecipes.push_back(recipe);
+            return newNode;
+        }
+        else if(head->data == data) {
+            head->allRecipes.push_back(recipe);
+        }
         else if (data < head->data)
             head->left = insertHelper(head->left, data, recipe);
         else
             head->right = insertHelper(head->right, data, recipe);
+
+
 
         // update relationships of head node
         Node* child_L = head->left;
@@ -260,8 +277,10 @@ class Ordered_Map {
 private:
     BST<T> tree;
 public:
-    void insert(string key, T value) {
+    void insert(string key, T value, string name) {
+        cout << "Trying to insert " << name << " into the category " << key << endl;
         tree.insert(key,value);
+        cout << "Inserted properly" << endl;
     }
     T* search(string key) {
         return tree.search(key);
