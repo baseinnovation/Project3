@@ -12,14 +12,14 @@ class BST {
 private:
     struct Node {
         string data;
-        T* recipe = nullptr;
+        T recipe = nullptr;
         Node* left;
         Node* right;
         bool black = true;
         Node() : data(), left(nullptr), right(nullptr) {}
         Node(string d) : data(d), left(nullptr), right(nullptr) {}
         Node(string d, bool black) : data(d), black(black), left(nullptr), right(nullptr) {}
-        Node(string d, T* rec, bool black) : data(d), recipe(rec), black(black) {}
+        Node(string d, T rec, bool black) : data(d), recipe(rec), black(black) {}
     };
     Node* root = nullptr;
 
@@ -83,20 +83,20 @@ public:
         else
             return search(head->right, d);
     }
-    void insert(string data, T* recipe) {
+    void insert(string data, T recipe) {
         this->root = insertHelper(this->root, data, recipe);
         this->root->black = true; // update root color to always black
     }
-    Node* insertHelper(Node* head, string data, T* recipe) {
+    Node* insertHelper(Node* head, string data, T recipe) {
         // if new node is root, color black, else color red and adjust color if necessary
         if (root == nullptr)
             return new Node(data, recipe, true);
         else if (head == nullptr)
             return new Node(data, recipe, false);
         else if (data < head->data)
-            head->left = insertHelper(head->left, data);
+            head->left = insertHelper(head->left, data, recipe);
         else
-            head->right = insertHelper(head->right, data);
+            head->right = insertHelper(head->right, data, recipe);
 
         // update relationships of head node
         Node* child_L = head->left;
@@ -256,7 +256,7 @@ public:
 };
 
 template <typename T>
-class map {
+class Ordered_Map {
 private:
     BST<T> tree;
 public:
@@ -265,8 +265,5 @@ public:
     }
     T* search(string key) {
         return tree.search(key);
-    }
-    ~map(){
-        delete tree;
     }
 };
