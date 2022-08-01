@@ -57,11 +57,13 @@ public:
     void insert(string key, T value) {
         for (int i = 0; i < buckets[hash(key)].size(); i++) {
             if (buckets[hash(key)][i].first == key) {
-                buckets[hash(key)][i].second = static_cast<initializer_list<Recipe>>(static_cast<const vector<struct Recipe>>(value));
+                buckets[hash(key)][i].second.push_back(value);
                 return;
             }
         }
-        buckets[hash(key)].push_back({key, value});
+        vector<T> newCategory;
+        newCategory.push_back(value);
+        buckets[hash(key)].push_back({key, newCategory});
         numElements++;
         rehash();
     }
